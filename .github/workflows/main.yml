@@ -43,7 +43,7 @@ jobs:
       - name: Create ANDROID_KEYSTORE
         uses: finnp/create-file-action@1.0.0
         env:
-          FILE_NAME: mobile-team-android.jks
+          FILE_NAME: sample/mobile-team-android.jks
           FILE_DATA:  ${{ secrets.ANDROID_KEYSTORE }}
         
     #  - name: Build + Lint with Gradle
