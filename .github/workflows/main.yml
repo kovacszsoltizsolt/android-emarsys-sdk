@@ -60,22 +60,12 @@ jobs:
           RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
           RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
           RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
           RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+  
           
-            
-      - name: release
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: sample/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.ANDROID_KEYSTORE }}
-          alias: ${{ secrets.RELEASE_KEY_ALIAS }}
-          keyStorePassword: ${{ secrets.RELEASE_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
-      
-          
-      #- name: Release sample app with Gradle
-       # run: ./gradlew assembleRelease
+      - name: Release sample app with Gradle
+        run: ./gradlew assembleRelease
       
       - name: Upload APK
         uses: actions/upload-artifact@v2
