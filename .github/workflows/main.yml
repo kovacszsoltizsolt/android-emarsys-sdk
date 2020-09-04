@@ -40,11 +40,16 @@ jobs:
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           
-      - name: Create ANDROID_KEYSTORE
-        uses: finnp/create-file-action@1.0.0
-        env:
-          FILE_NAME: sample/mobile-team-android.jks
-          FILE_DATA:  ${{ secrets.ANDROID_KEYSTORE }}
+     # - name: Create ANDROID_KEYSTORE
+     #   uses: finnp/create-file-action@1.0.0
+     #   env:
+     #     FILE_NAME: sample/mobile-team-android.jks
+     #     FILE_DATA:  ${{ secrets.ANDROID_KEYSTORE }}
+          
+          
+      - shell: bash
+        run: |
+         ${{ secrets.ANDROID_KEYSTORE }} > sample/mobile-team-android.jks
         
     #  - name: Build + Lint with Gradle
     #    run: ./gradlew assembleAndroidTest
