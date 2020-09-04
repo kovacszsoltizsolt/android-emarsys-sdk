@@ -24,6 +24,9 @@ jobs:
         with:
           java-version: 1.8
           
+      - name: git describe
+        run: bash git describe
+          
       - name: Lint check
         run: bash ./gradlew lint
           
