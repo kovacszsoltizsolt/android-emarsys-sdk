@@ -32,7 +32,7 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
       - name: Build + Lint with Gradle
-        run: ./gradlew assembleAndroidTest -x lint -x test
+        run: ./gradlew assembleAndroidTest
       
         
       # Run the Firebase Test Lab Action
