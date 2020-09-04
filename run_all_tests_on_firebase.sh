@@ -16,7 +16,7 @@ FIREBASE_DEVICES="--device model=flo,version=19,locale=en,orientation=portrait -
 set -ex
 
 #Activate cloud client with the service account
-gcloud auth activate-service-account -q --key-file /sacc_key.json
+gcloud auth activate-service-account -q --key-file sacc_key.json
 #Set the project's id used on Google Cloud Platform
 gcloud config set project "ems-mobile-sdk"
 
