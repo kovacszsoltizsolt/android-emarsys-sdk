@@ -26,10 +26,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Decrypt keystore
-        run: ./signing/decrypt.sh
-        env:
-          CRYPT_PASS: ${{ secrets.CRYPT_PASS }}
       
       - name: Lint check
         run: ./gradlew lint
