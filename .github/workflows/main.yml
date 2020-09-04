@@ -31,10 +31,9 @@ jobs:
           json: ${{ secrets.GOOGLE_SERVICES_JSON }}
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
-      - name: Lint check
-        run: ./gradlew lint
-      - name: Build with Gradle
-        run: ./gradlew assembleAndroidTest -x lint
+      - name: Build + Lint with Gradle
+        run: ./gradlew assembleAndroidTest
+      
         
       # Run the Firebase Test Lab Action
       - name: Run tests on Firebase Test Lab
