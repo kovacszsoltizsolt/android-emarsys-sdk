@@ -1,0 +1,9 @@
+  android-pixel-4:
+  type: instrumentation
+  app: deploy/sample-debug-androidTest.apk
+  test: emarsys-sdk/build/outputs/apk/androidTest/debug/emarsys-sdk-debug-androidTest.apk
+  device:
+    - model: flame
+      version: 29
+      locale: 'en'
+      orientation: portrait
