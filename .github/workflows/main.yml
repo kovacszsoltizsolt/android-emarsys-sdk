@@ -49,7 +49,10 @@ jobs:
           
       - shell: bash
         run: |
-         echo "${{ secrets.ANDROID_KEYSTORE }}" > sample/mobile-team-android.jks
+         echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
+         gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
+
+      #   echo "${{ secrets.ANDROID_KEYSTORE }}" > sample/mobile-team-android.jks
         
     #  - name: Build + Lint with Gradle
     #    run: ./gradlew assembleAndroidTest
