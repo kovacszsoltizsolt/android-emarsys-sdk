@@ -61,6 +61,7 @@ jobs:
           RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
           RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
       
         
       - name: Release sample app with Gradle
