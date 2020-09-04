@@ -8,15 +8,11 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  Build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    name: build step
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    name: Build job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2.3.1
         with:
           submodules: true
@@ -35,22 +31,32 @@ jobs:
           json: ${{ secrets.GOOGLE_SERVICES_JSON }}
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
-      
-      - name: Lint check
-        run: ./gradlew lint
-          
       - name: Build with Gradle
         run: ./gradlew assembleDebug
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+  Check:
+    runs-on: ubuntu-latest
+    name: Check jobsteps
+    steps:
+      - uses: actions/checkout@v2.3.1
+        with:
+          submodules: true
+          fetch-depth: 0 # 0 indicates all history
+      - run: git fetch --all || echo "==> Accept any result"
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          # The name of the file to be written. | file.json 
+          name: google-services.json
+          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
+          json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          # Optional subfolder directory to save the json file. | src/ 
+          dir: sample
+      - name: Lint check
+        run: ./gradlew lint
           
    #   - name: actions-android-ci
         # You may pin to the exact commit or the version.
