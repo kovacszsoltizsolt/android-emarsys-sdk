@@ -60,13 +60,14 @@ jobs:
           RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
           RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
           RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
       
         
       - name: Release sample app with Gradle
         run: ./gradlew assembleRelease
       
       - name: Upload APK
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: mobile-sdk-sample
           path: sample/build/outputs/apk/release/sample-release.apk
