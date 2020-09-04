@@ -1,7 +1,7 @@
 android-pixel-4:
   type: instrumentation
-  app: ${{ github.workspace }}/deploy/sample-debug-androidTest.apk
-  test: emarsys-sdk/build/outputs/apk/androidTest/debug/emarsys-sdk-debug-androidTest.apk
+  app: ${{ github.workspace }}/sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
+  test: ${{ github.workspace }}/emarsys-sdk/build/outputs/apk/androidTest/debug/emarsys-sdk-debug-androidTest.apk
   device:
     - model: flame
       version: 29
