@@ -40,6 +40,10 @@ jobs:
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.GOOGLE_SERVICES_JSON }}
       - name: Build + Lint with Gradle
+        run: cat sacc_key.json
+        
+        
+      - name: Build + Lint with Gradle
         run: ./gradlew assembleAndroidTest
       
         
