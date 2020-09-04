@@ -26,6 +26,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          # The name of the file to be written. | file.json 
+          name: google-services.json
+          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
+          json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          # Optional subfolder directory to save the json file. | src/ 
+          dir: sample
       
       - name: Lint check
         run: ./gradlew lint
