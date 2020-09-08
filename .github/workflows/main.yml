@@ -51,7 +51,7 @@ jobs:
         with:
           arg-spec: 'tests.yml:android-pixel-4'
         env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         
       - name: Run firebase tests
         run: bash ./run_all_tests_on_firebase.sh
