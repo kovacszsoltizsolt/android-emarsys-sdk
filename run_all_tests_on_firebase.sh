@@ -3,11 +3,8 @@
 PIDS=""
 RESULT=0
 MODULES="
-core-api
 core
-mobile-engage-api
 mobile-engage
-predict-api
 predict
 emarsys
 emarsys-sdk
