@@ -42,11 +42,21 @@ jobs:
           
       - name: Build + Lint with Gradle
         run: ./gradlew assembleAndroidTest
+
+
+      # Run the Firebase Test Lab Action
+      - name: Run tests on Firebase Test Lab
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'tests.yml:android-pixel-4'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }
         
       - name: Run firebase tests
         run: bash ./run_all_tests_on_firebase.sh
           
-      - shell: bash
+      - name: Create release keystore file
+        shell: bash
         run: |
          echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
          gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
