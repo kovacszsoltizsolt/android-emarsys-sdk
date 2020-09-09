@@ -74,6 +74,7 @@ jobs:
           RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
           DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
   
           
       - name: Release sample app with Gradle
