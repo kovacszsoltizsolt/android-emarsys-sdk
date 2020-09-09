@@ -122,22 +122,6 @@ class DefaultInboxIntegrationTest {
 
         Emarsys.setup(baseConfig)
 
-        DependencyInjection.getContainer<DependencyContainer>().getCoreSdkHandler().post {
-
-            getDependency<StringStorage>(MobileEngageStorageKey.CLIENT_STATE.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.CONTACT_FIELD_VALUE.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.CONTACT_TOKEN.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.PUSH_TOKEN.key).remove()
-
-            getDependency<StringStorage>(MobileEngageStorageKey.CLIENT_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.EVENT_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.DEEPLINK_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.ME_V2_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.INBOX_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(MobileEngageStorageKey.MESSAGE_INBOX_SERVICE_URL.key).remove()
-            getDependency<StringStorage>(PredictStorageKey.PREDICT_SERVICE_URL.key).remove()
-        }
-
         IntegrationTestUtils.doLogin()
     }
 

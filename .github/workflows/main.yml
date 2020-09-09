@@ -32,6 +32,10 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
           
+          
+      - name: Build + Lint with Gradle
+        run: ./gradlew assembleAndroidTest
+        
       - name: create testlab services json
         uses: jsdaniell/create-json@1.1.2
         with:
@@ -39,14 +43,21 @@ jobs:
           name: sacc_key.json
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          
-      - name: Build + Lint with Gradle
-        run: ./gradlew assembleAndroidTest
+
+
+      # Run the Firebase Test Lab Action
+      #- name: Run tests on Firebase Test Lab
+       # uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        #with:
+         # arg-spec: 'tests.yml:android-pixel-4'
+        #env:
+         # SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         
       - name: Run firebase tests
         run: bash ./run_all_tests_on_firebase.sh
           
-      - shell: bash
+      - name: Create release keystore file
+        shell: bash
         run: |
          echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
          gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
