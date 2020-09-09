@@ -46,12 +46,12 @@ jobs:
 
 
       # Run the Firebase Test Lab Action
-      - name: Run tests on Firebase Test Lab
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'tests.yml:android-pixel-4'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      #- name: Run tests on Firebase Test Lab
+       # uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        #with:
+         # arg-spec: 'tests.yml:android-pixel-4'
+        #env:
+         # SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         
       - name: Run firebase tests
         run: bash ./run_all_tests_on_firebase.sh
