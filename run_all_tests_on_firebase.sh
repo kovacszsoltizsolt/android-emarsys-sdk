@@ -22,7 +22,7 @@ gcloud config set project "ems-mobile-sdk"
 
 
 for i in $MODULES; do
-   gcloud firebase test android run --type instrumentation --test "$i/build/outputs/apk/androidTest/debug/$i-debug-androidTest.apk" --app=sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk "$FIREBASE_DEVICES" --timeout 30m --quiet --project ems-mobile-sdk &	
+   gcloud firebase test android run --type instrumentation --test "$i/build/outputs/apk/androidTest/debug/$i-debug-androidTest.apk" --app=sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk "$FIREBASE_DEVICES" --timeout 30m --quiet --verbosity=debug --project ems-mobile-sdk &	
 PIDS="$PIDS $!"
 done
 
