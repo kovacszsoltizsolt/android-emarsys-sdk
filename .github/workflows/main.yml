@@ -52,19 +52,6 @@ jobs:
          # arg-spec: 'tests.yml:android-pixel-4'
         #env:
          # SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        
-      - name: Run firebase tests
-        run: bash ./run_all_tests_on_firebase.sh
-          
-      - name: Create release keystore file
-        shell: bash
-        run: |
-         echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
-         gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
-
-        
-      
-       
        
       - name: set environment variables
         uses: allenevans/set-env@v1.0.0
@@ -76,6 +63,17 @@ jobs:
           DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
           GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
   
+
+      - name: Run firebase tests
+        run: bash ./run_all_tests_on_firebase.sh
+          
+      - name: Create release keystore file
+        shell: bash
+        run: |
+         echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
+         gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
+
+
           
       - name: Release sample app with Gradle
         run: ./gradlew assembleRelease
