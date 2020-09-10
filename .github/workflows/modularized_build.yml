@@ -59,16 +59,65 @@ jobs:
          echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
          gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
 
-      # Run the Firebase Test Lab Action
-      #- name: Run tests on Firebase Test Lab
-       # uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        #with:
-         # arg-spec: 'tests.yml:android-pixel-4'
-        #env:
-         # SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-  
-      - name: Run firebase tests
-        run: bash ./run_all_tests_on_firebase.sh
+#       Run the Firebase Test Lab Action
+      - name: Run core-api tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:core-api'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run core tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:core'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run mobile-engage-api tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:mobile-engage-api'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run mobile-engage tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:mobile-engage'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run predict-api tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:predict-api'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run predict tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:predict'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run emarsys-sdk tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:emarsys-sdk'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Run emarsys tests on Firebase
+        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+        with:
+          arg-spec: 'testWithAllDevices.yml:emarsys'
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+#      - name: Run firebase tests
+#        run: bash ./run_all_tests_on_firebase.sh
           
       - name: Release sample app with Gradle
         run: ./gradlew assembleRelease
