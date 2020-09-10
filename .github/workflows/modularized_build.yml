@@ -55,7 +55,7 @@ jobs:
 
       - name: upload sample app apk artifact
         uses: actions/upload-artifact@v2
-          with:
+        with:
             name: sample
             path: sample/build/outputs/apk/release/sample-release.apk
 
