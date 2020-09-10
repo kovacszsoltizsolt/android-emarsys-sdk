@@ -31,7 +31,16 @@ jobs:
           json: ${{ secrets.GOOGLE_SERVICES_JSON }}
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
-          
+                 
+      - name: set environment variables
+        uses: allenevans/set-env@v1.0.0
+        with:
+          RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
+          RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+          RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
           
       - name: Build + Lint with Gradle
         run: ./gradlew assembleAndroidTest
@@ -57,16 +66,6 @@ jobs:
          # arg-spec: 'tests.yml:android-pixel-4'
         #env:
          # SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-       
-      - name: set environment variables
-        uses: allenevans/set-env@v1.0.0
-        with:
-          RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
-          RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
-          RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
-          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
   
       - name: Run firebase tests
         run: bash ./run_all_tests_on_firebase.sh
