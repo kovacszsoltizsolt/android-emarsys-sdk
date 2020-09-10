@@ -6,6 +6,14 @@ on:
   push:
     branches: [ master ]
 
+env:
+  RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
+  RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+  RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+  RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+  DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+  GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Build:
@@ -32,18 +40,30 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
                  
-      - name: set environment variables
-        uses: allenevans/set-env@v1.0.0
-        with:
-          RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
-          RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
-          RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
-          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
+#      - name: set environment variables
+#        uses: allenevans/set-env@v1.0.0
+#        with:
+#          RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
+#          RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+#          RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+#          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
+#          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
+#          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
           
       - name: Build + Lint with Gradle
         run: ./gradlew assembleAndroidTest
+
+      - name: upload sample app apk artifact
+        uses: actions/upload-artifact@v2
+          with:
+            name: sample
+            path: sample/build/outputs/apk/release/sample-release.apk
+
+      - name: upload emarsys-sdk test apk artifact
+        uses: actions/upload-artifact@v2
+          with:
+            name: emarsys-sdk
+            path: emarsys-sdk/build/outputs/apk/androidTest/debug/emarsys-sdk-debug-androidTest.apk
         
       - name: create testlab services json
         uses: jsdaniell/create-json@1.1.2
@@ -60,74 +80,78 @@ jobs:
          gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
 
 #       Run the Firebase Test Lab Action
-      - name: Run core-api tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:core-api'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run core tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:core'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run mobile-engage-api tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:mobile-engage-api'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run mobile-engage tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:mobile-engage'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run predict-api tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:predict-api'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run predict tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:predict'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run emarsys-sdk tests on Firebase
+#      - name: Run core-api tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:core-api'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run core tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:core'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run mobile-engage-api tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:mobile-engage-api'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run mobile-engage tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:mobile-engage'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run predict-api tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:predict-api'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run predict tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:predict'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+  Test:
+    name: Run emarsys-sdk tests on Firebase
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run test
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
           arg-spec: 'testWithAllDevices.yml:emarsys-sdk'
         env:
           SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Run emarsys tests on Firebase
-        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
-        with:
-          arg-spec: 'testWithAllDevices.yml:emarsys'
-        env:
-          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+#
+#      - name: Run emarsys tests on Firebase
+#        uses: asadmansr/Firebase-Test-Lab-Action@v1.0
+#        with:
+#          arg-spec: 'testWithAllDevices.yml:emarsys'
+#        env:
+#          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
 #      - name: Run firebase tests
 #        run: bash ./run_all_tests_on_firebase.sh
-          
-      - name: Release sample app with Gradle
-        run: ./gradlew assembleRelease
-      
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: mobile-sdk-sample
-          path: sample/build/outputs/apk/release/sample-release.apk
-          
+#
+#      - name: Release sample app with Gradle
+#        run: ./gradlew assembleRelease
+#
+#      - name: Upload APK
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: mobile-sdk-sample
+#          path: sample/build/outputs/apk/release/sample-release.apk
+#
    #   - name: actions-android-ci
         # You may pin to the exact commit or the version.
         # uses: xdtianyu/actions-android-ci@ef35273266fe3eeb58534bf9239946203aba4100
