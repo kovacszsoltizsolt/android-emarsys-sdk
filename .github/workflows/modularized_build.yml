@@ -40,24 +40,8 @@ jobs:
           # Optional subfolder directory to save the json file. | src/ 
           dir: sample
                  
-#      - name: set environment variables
-#        uses: allenevans/set-env@v1.0.0
-#        with:
-#          RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
-#          RELEASE_KEY_ALIAS:  ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
-#          RELEASE_STORE_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-#          RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
-#          DEVELOPMENT_MODE: ${{ secrets.DEVELOPMENT_MODE }}
-#          GOOGLE_SERVICES_API_KEY: ${{ secrets.GOOGLE_SERVICES_API_KEY }}
-          
       - name: Build + Lint with Gradle
         run: ./gradlew assembleAndroidTest
-
-      - name: upload sample app apk artifact
-        uses: actions/upload-artifact@v2
-        with:
-            name: sample
-            path: sample/build/outputs/apk/release/sample-release.apk
 
       - name: upload emarsys-sdk test apk artifact
         uses: actions/upload-artifact@v2
@@ -73,11 +57,11 @@ jobs:
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Create release keystore file
-        shell: bash
-        run: |
-         echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
-         gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
+#       - name: Create release keystore file
+#         shell: bash
+#         run: |
+#          echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
+#          gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
 
 #       Run the Firebase Test Lab Action
 #      - name: Run core-api tests on Firebase
