@@ -276,8 +276,8 @@ predict:
 
 emarsys-sdk:
   type: instrumentation
-  app: sample/sample-debug-androidTest.apk
-  test: emarsys-sdk/emarsys-sdk-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: emarsys-sdk-debug-androidTest.apk
   device:
     - model: flo
       version: 19
