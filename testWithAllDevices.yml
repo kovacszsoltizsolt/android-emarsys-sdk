@@ -1,7 +1,7 @@
 core-api:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: core-api/build/outputs/apk/androidTest/debug/core-api-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: core-api-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -46,8 +46,8 @@ core-api:
 
 core:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: core/build/outputs/apk/androidTest/debug/core-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: core-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -92,8 +92,8 @@ core:
 
 mobile-engage-api:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: mobile-engage-api/build/outputs/apk/androidTest/debug/mobile-engage-api-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: mobile-engage-api-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -138,8 +138,8 @@ mobile-engage-api:
 
 mobile-engage:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: mobile-engage/build/outputs/apk/androidTest/debug/mobile-engage-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: mobile-engage-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -184,8 +184,8 @@ mobile-engage:
 
 predict-api:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: predict-api/build/outputs/apk/androidTest/debug/predict-api-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: predict-api-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -230,8 +230,8 @@ predict-api:
 
 predict:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: predict/build/outputs/apk/androidTest/debug/predict-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: predict-debug-androidTest.apk
   device:
     - model: flo
       version: 19
@@ -322,8 +322,8 @@ emarsys-sdk:
 
 emarsys:
   type: instrumentation
-  app: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-  test: emarsys/build/outputs/apk/androidTest/debug/emarsys-debug-androidTest.apk
+  app: sample-debug-androidTest.apk
+  test: emarsys-debug-androidTest.apk
   device:
     - model: flo
       version: 19
