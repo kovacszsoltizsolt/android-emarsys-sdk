@@ -122,15 +122,15 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
 
-      - name: Download emarsys-sdk tests
+      - name: Download sample app
         uses: actions/download-artifact@v2
         with:
-          name: emarsys-sdk 
+          name: sample 
       
       - name: Download emarsys-sdk tests
         uses: actions/download-artifact@v2
         with:
-          name: sample     
+          name: emarsys-sdk     
 
       - name: Run test
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
