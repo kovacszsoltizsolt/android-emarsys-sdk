@@ -132,6 +132,9 @@ jobs:
         with:
           name: emarsys-sdk     
 
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Run test
         uses: asadmansr/Firebase-Test-Lab-Action@v1.0
         with:
