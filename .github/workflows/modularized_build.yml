@@ -381,7 +381,7 @@ jobs:
            shell: bash
            run: |
              mkdir tmpdir
-             mv sample/build/outputs/apk/release/sample-release-unsigned.apk tmpdir/sample-release.apk
+             mv sample/build/outputs/apk/release/sample-release.apk tmpdir/sample-release.apk
         
          - name: upload to s3
            uses: jakejarvis/s3-sync-action@master
