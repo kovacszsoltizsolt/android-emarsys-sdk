@@ -343,6 +343,16 @@ jobs:
               fetch-depth: 0 # 0 indicates all history
          - run: git fetch --all || echo "==> Accept any result"
 
+         - name: create-google services json
+             uses: jsdaniell/create-json@1.1.2
+             with:
+               # The name of the file to be written. | file.json
+               name: google-services.json
+               # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
+               json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+               # Optional subfolder directory to save the json file. | src/
+               dir: sample
+
          - name: Create release keystore file
            shell: bash
            run: |
@@ -355,8 +365,8 @@ jobs:
          - name: Upload APK
            uses: actions/upload-artifact@v2
            with:
-            name: mobile-sdk-sample
-            path: sample/build/outputs/apk/release/sample-release.apk
+              name: mobile-sdk-sample
+              path: sample/build/outputs/apk/release/sample-release.apk
 
 
    #   - name: actions-android-ci
