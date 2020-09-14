@@ -114,6 +114,43 @@ jobs:
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
+  CreateReleaseApk:
+    name: Create release apk
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+        with:
+          submodules: true
+          fetch-depth: 0 # 0 indicates all history
+      - run: git fetch --all || echo "==> Accept any result"
+
+      - name: create-google services json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          # The name of the file to be written. | file.json
+          name: google-services.json
+          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
+          json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          # Optional subfolder directory to save the json file. | src/
+          dir: sample
+
+      - name: Create release keystore file
+        shell: bash
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
+                    gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
+
+      - name: Release sample app with Gradle
+        run: ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+           name: mobile-sdk-sample
+           path: sample/build/outputs/apk/release/sample-release.apk
+
+
 #   TestCoreApi:
 #     name: Run core-api tests on Firebase
 #     needs: Build
@@ -344,7 +381,7 @@ jobs:
   ReleaseSample:
       name: Release sample app
       runs-on: ubuntu-latest
-      needs: [Build, TestCore, TestMobileEngage, TestPredict, TestEmarsysSDK, TestEmarsys]
+      needs: [Build, TestCore, TestMobileEngage, TestPredict, TestEmarsysSDK, TestEmarsys, CreateReleaseApk]
 #       needs: [Build, TestCoreApi, TestCore, TestMobileEngageApi, TestMobileEngage, TestPredictApi, TestPredict, TestEmarsysSDK, TestEmarsys]
       steps:
          - uses: actions/checkout@v2.3.1
@@ -353,24 +390,24 @@ jobs:
               fetch-depth: 0 # 0 indicates all history
          - run: git fetch --all || echo "==> Accept any result"
 
-         - name: create-google services json
-           uses: jsdaniell/create-json@1.1.2
-           with:
-               # The name of the file to be written. | file.json
-               name: google-services.json
-               # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
-               json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-               # Optional subfolder directory to save the json file. | src/
-               dir: sample
-
-         - name: Create release keystore file
-           shell: bash
-           run: |
-             echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
-                       gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
-
-         - name: Release sample app with Gradle
-           run: ./gradlew assembleRelease
+#         - name: create-google services json
+#           uses: jsdaniell/create-json@1.1.2
+#           with:
+#               # The name of the file to be written. | file.json
+#               name: google-services.json
+#               # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
+#               json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+#               # Optional subfolder directory to save the json file. | src/
+#               dir: sample
+#
+#         - name: Create release keystore file
+#           shell: bash
+#           run: |
+#             echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
+#                       gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
+#
+#         - name: Release sample app with Gradle
+#           run: ./gradlew assembleRelease
 
 #          - name: Upload APK
 #            uses: actions/upload-artifact@v2
@@ -378,11 +415,19 @@ jobs:
 #               name: mobile-sdk-sample
 #               path: sample/build/outputs/apk/release/sample-release.apk
 
-         - name: Move release apk to folder
-           shell: bash
-           run: |
-             mkdir tmpdir
-             mv sample/build/outputs/apk/release/sample-release.apk tmpdir/sample-release.apk
+
+
+         - name: Download sample app
+           uses: actions/download-artifact@v2
+           with:
+             name: mobile-sdk-sample
+             path: tmpdir
+
+#        - name: Move release apk to folder
+#          shell: bash
+#          run: |
+#            mkdir tmpdir
+#            mv mobile-sdk-sample tmpdir/sample-release.apk
         
          - name: upload to s3
            uses: jakejarvis/s3-sync-action@master
@@ -396,4 +441,4 @@ jobs:
     steps:
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@master
-        
+
