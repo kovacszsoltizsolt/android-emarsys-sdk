@@ -29,7 +29,7 @@ jobs:
           name: google-services.json
           # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
           json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-          # Optional subfolder directory to save the json file. | src/ 
+
           dir: sample
                  
       - name: set environment variables
