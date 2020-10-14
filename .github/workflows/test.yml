@@ -37,11 +37,13 @@ jobs:
           submodules: true
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
+        
       - name: Try to fail
-          run: exit 1
+        run: exit 1
+          
       - name: Echo if failed
-          if: ${{ failure() }}
-          run: |
+        if: ${{ failure() }}
+        run: |
             echo "One job failed"
       - name: echo
         shell: bash
