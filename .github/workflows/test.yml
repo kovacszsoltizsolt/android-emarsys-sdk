@@ -38,8 +38,8 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
         
-      - name: Try to fail
-        run: exit 1
+#      - name: Try to fail
+#        run: exit 1
 
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
