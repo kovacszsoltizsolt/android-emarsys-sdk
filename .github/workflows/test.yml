@@ -20,11 +20,9 @@ jobs:
 
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
-        if: ${{ failure() }}
         run: echo 'false' > FAILURE.TXT
 
       - name: Upload file 'FAILURE.TXT' as an artifact
-        if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
           name: failure_file
