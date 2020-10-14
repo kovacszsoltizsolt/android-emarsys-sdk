@@ -51,7 +51,7 @@ jobs:
           dir: sample
                  
       - name: Build + Lint with Gradle
-        run: ./gradlew assembleAndroidTest -x lint
+        run: ./gradlew assembleAndroidTest -x lint -scan
       
       - name: upload sample app artifact
         uses: actions/upload-artifact@v2
