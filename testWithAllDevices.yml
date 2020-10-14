@@ -3,10 +3,6 @@ core-api:
   app: sample-debug-androidTest.apk
   test: core-api-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -29,10 +25,6 @@ core-api:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -49,10 +41,6 @@ core:
   app: sample-debug-androidTest.apk
   test: core-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -75,10 +63,6 @@ core:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -95,10 +79,6 @@ mobile-engage-api:
   app: sample-debug-androidTest.apk
   test: mobile-engage-api-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -121,10 +101,6 @@ mobile-engage-api:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -141,10 +117,6 @@ mobile-engage:
   app: sample-debug-androidTest.apk
   test: mobile-engage-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -167,10 +139,6 @@ mobile-engage:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -187,10 +155,6 @@ predict-api:
   app: sample-debug-androidTest.apk
   test: predict-api-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -213,10 +177,6 @@ predict-api:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -233,10 +193,6 @@ predict:
   app: sample-debug-androidTest.apk
   test: predict-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -259,10 +215,6 @@ predict:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -279,10 +231,6 @@ emarsys-sdk:
   app: sample-debug-androidTest.apk
   test: emarsys-sdk-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -305,10 +253,6 @@ emarsys-sdk:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
@@ -325,10 +269,6 @@ emarsys:
   app: sample-debug-androidTest.apk
   test: emarsys-debug-androidTest.apk
   device:
-    - model: flo
-      version: 19
-      locale: 'en'
-      orientation: portrait
     - model: hammerhead
       version: 21
       locale: 'en'
@@ -351,10 +291,6 @@ emarsys:
       orientation: portrait
     - model: sailfish
       version: 27
-      locale: 'en'
-      orientation: portrait
-    - model: walleye
-      version: 28
       locale: 'en'
       orientation: portrait
     - model: walleye
