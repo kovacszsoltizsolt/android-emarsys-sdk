@@ -46,7 +46,7 @@ jobs:
         if: ${{ failure() }}
         run: echo 'true' > FAILURE.TXT
 
-      - name: Upload file 'SUCCESS.TXT' as an artifact
+      - name: Upload file 'FAILURE.TXT' as an artifact
         if: ${{ failure() }}
         uses: actions/upload-artifact@v1
         with:
