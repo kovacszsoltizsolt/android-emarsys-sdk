@@ -2,8 +2,8 @@ name: Emarsys SDK - Modularized CI
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
 
 env:
   RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
