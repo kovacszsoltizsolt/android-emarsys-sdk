@@ -1,4 +1,4 @@
-name: Emarsys SDK - Modularized CI
+name: Emarsys SDK - Fail test
 
 on:
   workflow_dispatch:
