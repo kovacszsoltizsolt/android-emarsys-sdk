@@ -1,6 +1,7 @@
 name: Emarsys SDK - Modularized CI
 
 on:
+  workflow_dispatch:
   push:
     branches: [ master ]
 
