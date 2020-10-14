@@ -28,7 +28,7 @@ env:
 jobs:
   Build:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     name: Build job
     steps:
       - uses: actions/checkout@v2.3.1
