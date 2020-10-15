@@ -22,6 +22,7 @@ env:
   SLACK_TITLE: Android Pipeline
   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+  GOOGLE_PLAY_STORE_SEVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_STORE_SEVICE_ACCOUNT_JSON }}
 
 jobs:
   Build:
@@ -142,13 +143,13 @@ jobs:
                     gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
 
       - name: Release sample app with Gradle
-        run: ./gradlew assembleRelease
+        run: ./gradlew :sample:bundleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
           name: mobile-sdk-sample
-          path: sample/build/outputs/apk/release/sample-release.apk
+          path: sample/build/outputs/apk/release/sample-release.aab
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
         if: ${{ failure() }}
@@ -177,11 +178,19 @@ jobs:
         with:
           name: mobile-sdk-sample
           path: tmpdir
-
-      - name: upload to s3
-        uses: jakejarvis/s3-sync-action@master
+      - name: create-google services json
+        uses: jsdaniell/create-json@1.1.2
         with:
-          args: --acl public-read --follow-symlinks
+          name: google-play-services.json
+          json: ${{ secrets.GOOGLE_PLAY_STORE_SEVICE_ACCOUNT_JSON }}
+
+      - name: Playstore upload
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: google-play-services.json
+          packageName: com.emarsys.sample
+          releaseFile: tmpdir/sample-release.aab
+          track: beta
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
         if: ${{ failure() }}
@@ -233,6 +242,3 @@ jobs:
           SLACK_COLOR: '#FF3C00'
           SLACK_MESSAGE:
             'Build failed! :man-gesturing-no: \n https://console.firebase.google.com/u/0/project/ems-mobile-sdk/testlab/histories/'
-
-
-
