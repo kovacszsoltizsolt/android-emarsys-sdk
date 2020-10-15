@@ -116,8 +116,8 @@ jobs:
           name: failure_file
           path: FAILURE.TXT
 
-  CreateReleaseApk:
-    name: Create release apk
+  CreateReleaseBundle:
+    name: Create release bundle
     needs: Build
     runs-on: ubuntu-latest
     steps:
@@ -142,10 +142,10 @@ jobs:
           echo "${{ secrets.ANDROID_KEYSTORE }}" > mobile-team-android.jks.asc
                     gpg -d --passphrase "${{ secrets.ANDROID_GPG_PASSWORD }}" --batch mobile-team-android.jks.asc > sample/mobile-team-android.jks
 
-      - name: Release sample app with Gradle
+      - name: Create release sample app with Gradle
         run: ./gradlew :sample:bundleRelease
 
-      - name: Upload APK
+      - name: Upload bundle
         uses: actions/upload-artifact@v2
         with:
           name: mobile-sdk-sample
@@ -241,4 +241,4 @@ jobs:
         env:
           SLACK_COLOR: '#FF3C00'
           SLACK_MESSAGE:
-            'Build failed! :man-gesturing-no: \n https://console.firebase.google.com/u/0/project/ems-mobile-sdk/testlab/histories/'
+            'Build failed! :man-gesturing-no:'
