@@ -149,7 +149,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: mobile-sdk-sample
-          path: sample/build/outputs/apk/release/sample-release.aab
+          path: sample/build/outputs/bundle/release/sample-release.aab
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
         if: ${{ failure() }}
