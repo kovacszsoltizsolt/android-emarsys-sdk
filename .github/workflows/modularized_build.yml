@@ -190,7 +190,7 @@ jobs:
           serviceAccountJson: google-play-services.json
           packageName: com.emarsys.sample
           releaseFile: tmpdir/sample-release.aab
-          track: beta
+          track: alpha
 
       - name: Create file 'FAILURE.TXT' and write 'true' into it
         if: ${{ failure() }}
