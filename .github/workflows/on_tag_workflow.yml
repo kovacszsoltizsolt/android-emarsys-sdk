@@ -1,9 +1,10 @@
-name: Emarsys SDK - Modularized CI
+name: Release On Tag
 
 on:
   workflow_dispatch:
-#  push:
-#    branches: [ master ]
+  push:
+    tags:
+      - '*'
 
 env:
   RELEASE_KEY_PASSWORD:  ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
@@ -22,103 +23,58 @@ env:
   SLACK_TITLE: Android Pipeline
   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  GOOGLE_PLAY_STORE_SEVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_STORE_SEVICE_ACCOUNT_JSON }}
 
 jobs:
-#  Build:
-#    # The type of runner that the job will run on
-#    runs-on: ubuntu-latest
-#    name: Build job
-#    steps:
-#      - uses: actions/checkout@v2.3.1
-#        with:
-#          submodules: true
-#          fetch-depth: 0 # 0 indicates all history
-#      - run: git fetch --all || echo "==> Accept any result"
-#      - name: set up JDK 1.8
-#        uses: actions/setup-java@v1
-#        with:
-#          java-version: 1.8
-#      - name: create-google services json
-#        uses: jsdaniell/create-json@1.1.2
-#        with:
-#          # The name of the file to be written. | file.json
-#          name: google-services.json
-#          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
-#          json: ${{ secrets.GOOGLE_SERVICES_JSON }}
-#          # Optional subfolder directory to save the json file. | src/
-#          dir: sample
-#
-#      - name: Create file 'FAILURE.TXT' and write 'false' into it
-#        run: echo 'false' > FAILURE.TXT
-#
-#      - name: Upload file 'FAILURE.TXT' as an artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: failure_file
-#          path: FAILURE.TXT
-#
-#      - name: Build with Gradle
-#        run: ./gradlew assembleAndroidTest -x lint
-#
-#      - name: upload sample app artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: sample
-#          path: sample/build/outputs/apk/androidTest/debug/sample-debug-androidTest.apk
-#
-#      - name: upload emarsys-sdk test apk artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: core
-#          path: core/build/outputs/apk/androidTest/debug/core-debug-androidTest.apk
-#
-#      - name: upload emarsys-sdk test apk artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: mobile-engage
-#          path: mobile-engage/build/outputs/apk/androidTest/debug/mobile-engage-debug-androidTest.apk
-#
-#      - name: upload emarsys-sdk test apk artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: predict
-#          path: predict/build/outputs/apk/androidTest/debug/predict-debug-androidTest.apk
-#
-#      - name: upload emarsys-sdk test apk artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: emarsys
-#          path: emarsys/build/outputs/apk/androidTest/debug/emarsys-debug-androidTest.apk
-#
-#      - name: upload emarsys-sdk test apk artifact
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: emarsys-sdk
-#          path: emarsys-sdk/build/outputs/apk/androidTest/debug/emarsys-sdk-debug-androidTest.apk
-#
-#      - name: create testlab services json
-#        uses: jsdaniell/create-json@1.1.2
-#        with:
-#          # The name of the file to be written. | file.json
-#          name: sacc_key.json
-#          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}"
-#          json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-#
-#      - name: Create file 'FAILURE.TXT' and write 'true' into it
-#        if: ${{ failure() }}
-#        run: echo 'true' > FAILURE.TXT
-#
-#      - name: Upload file 'FAILURE.TXT' as an artifact
-#        if: ${{ failure() }}
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: failure_file
-#          path: FAILURE.TXT
+  Release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    name: Build job
+    steps:
+      - uses: actions/checkout@v2.3.1
+        with:
+          submodules: true
+          fetch-depth: 0 # 0 indicates all history
+      - run: git fetch --all || echo "==> Accept any result"
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: create-google services json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          # The name of the file to be written. | file.json 
+          name: google-services.json
+          # The json string that can be a secret of the github repo or a string of a json. | "{"title": "my json"}" 
+          json: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          # Optional subfolder directory to save the json file. | src/ 
+          dir: sample
 
-  CreateReleaseBundle:
+      - name: Create file 'FAILURE.TXT' and write 'false' into it
+        run: echo 'false' > FAILURE.TXT
+
+      - name: Upload file 'FAILURE.TXT' as an artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: failure_file
+          path: FAILURE.TXT
+
+      # TODO UNCOMMENT THIS
+#      - name: Release with Gradle
+#        run: ./gradlew clean build -x lint -x test release
+
+      - name: Create file 'FAILURE.TXT' and write 'true' into it
+        if: ${{ failure() }}
+        run: echo 'true' > FAILURE.TXT
+
+      - name: Upload file 'FAILURE.TXT' as an artifact
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v1
+        with:
+          name: failure_file
+          path: FAILURE.TXT
+
+  CreateSampleReleaseBundle:
     name: Create release bundle
-    needs: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.1
@@ -165,7 +121,7 @@ jobs:
   ReleaseSample:
     name: Release sample app
     runs-on: ubuntu-latest
-    needs: [CreateReleaseBundle]
+    needs: [Release, CreateSampleReleaseBundle]
     steps:
       - uses: actions/checkout@v2.3.1
         with:
@@ -178,6 +134,13 @@ jobs:
         with:
           name: mobile-sdk-sample
           path: tmpdir
+
+      #TODO delete this step
+      - name: upload to s3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --acl public-read --follow-symlinks
+
       - name: create-google services json
         uses: jsdaniell/create-json@1.1.2
         with:
@@ -212,7 +175,7 @@ jobs:
         uses: rtCamp/action-slack-notify@master
         env:
           SLACK_COLOR: '#32BD32'
-          SLACK_MESSAGE: 'Build successful! :man-gesturing-ok:'
+          SLACK_MESSAGE: 'Release successful! :man-gesturing-ok:'
 
   SlackNotificationOnError:
     name: Send slack on error
@@ -241,4 +204,4 @@ jobs:
         env:
           SLACK_COLOR: '#FF3C00'
           SLACK_MESSAGE:
-            'Build failed! :man-gesturing-no:'
+            'Release failed! :man-gesturing-no:'
