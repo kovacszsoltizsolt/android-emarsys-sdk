@@ -15,7 +15,8 @@ ext {
     git.fetch()
 
     gitVersionName = git.describe()
-    gitVersionCode = git.tag.list().size() ?: 1
+    // 1602845230 is the date of 2020.10.16.
+    gitVersionCode = (int) ((new Date().getTime() - 1602845230) / 10000)
     gitVersionCodeTime = git.head().time
 
     if (git.describe() == null) {
