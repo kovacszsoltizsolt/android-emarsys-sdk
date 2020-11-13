@@ -25,8 +25,9 @@ jobs:
       - name: Koszones
         uses: megamegax/slack_action@master
         with:
-          channel:
-            description: 'channel'
-            message: 'message'
-            user_name: 'pcsarc'
+          channel: ${{ secrets.SLACK_CHANNEL }}
+          description: 'channel'
+          message: 'message'
+          user_name: 'pcsarc'
+          job_status: 'success' 
 
