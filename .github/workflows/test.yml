@@ -26,8 +26,7 @@ jobs:
         uses: megamegax/slack_action@0.1.0
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
-          description: 'channel'
           message: 'message'
           user_name: 'pcsarc'
-          job_status: 'success' 
-
+          job_status: 'success'
+          user_icon: 'https://icons.iconarchive.com/icons/martz90/circle/256/android-icon.png'
