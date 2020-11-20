@@ -25,10 +25,11 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
       - name: Koszones
-        uses: megamegax/slack_action@0.1.22
+        uses: megamegax/slack_action@0.1.23
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message: 'build successfull'
           user_name: 'pcsarc'
           job_status: 'success'
           user_icon: 'https://icons.iconarchive.com/icons/martz90/circle/256/android-icon.png'
+          actions: '[{ "type": "button", "text": "View build", "url": GITHUB_WORKFLOW },{ "type": "button", "text": "View Firebase", "url": "https://console.firebase.google.com/project/ems-mobile-sdk/testlab/histories/" }]'
