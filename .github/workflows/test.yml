@@ -23,10 +23,10 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
       - name: Koszones
-        uses: megamegax/slack_action@0.1.19
+        uses: megamegax/slack_action@0.1.20
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
-          message: 'message'
+          message: 'build successfull'
           user_name: 'pcsarc'
           job_status: 'success'
           user_icon: 'https://icons.iconarchive.com/icons/martz90/circle/256/android-icon.png'
