@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
       - name: Koszones
-        uses: megamegax/slack_action@0.1.21
+        uses: megamegax/slack_action@0.1.22
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message: 'build successfull'
