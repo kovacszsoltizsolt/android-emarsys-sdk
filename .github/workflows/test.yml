@@ -9,7 +9,7 @@ env:
   SLACK_ICON: https://icons.iconarchive.com/icons/martz90/circle/256/android-icon.png
   SLACK_TITLE: Android Pipeline
   SLACK_USERNAME: ${{ secrets.SLACK_USERNAME }}
-  SLACK_APP_TOKEN: ${{ secrets.SLACK_WEBHOOK }}
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 jobs:
   Build:
@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
       - name: Koszones
-        uses: megamegax/slack_action@0.1.16
+        uses: megamegax/slack_action@0.1.17
         with:
           channel: ${{ secrets.SLACK_CHANNEL }}
           message: 'message'
