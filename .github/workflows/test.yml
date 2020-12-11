@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
       - name: Slack Notification - CI
-        uses: megamegax/slack_action@0.2.0
+        uses: megamegax/slack_action@0.2.1
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         with:
