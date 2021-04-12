@@ -28,3 +28,4 @@ jobs:
           echo "${{ secrets.SIGNING_KEY_FILE_ASC }}" > secring.asc
           gpg --dearmor secring.asc > secring.gpg
           ls -la
+          pwd
