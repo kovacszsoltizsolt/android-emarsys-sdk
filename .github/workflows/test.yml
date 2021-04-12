@@ -22,14 +22,8 @@ jobs:
           submodules: true
           fetch-depth: 0 # 0 indicates all history
       - run: git fetch --all || echo "==> Accept any result"
-      - name: Slack Notification - CI
-        uses: megamegax/slack_action@0.2.1
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        with:
-          channel: '${{env.SLACK_CHANNEL}}'
-          message: 'Emarsys SDK 3.0.0 has been released! :man-gesturing-ok: :bananadance:'
-          user_name: '${{env.SLACK_USERNAME}}'
-          job_status: 'success'
-          user_icon: '${{env.SLACK_ICON}}'
-          actions: '[{ "type": "button", "text": "View actions", "url": "https://github.com/emartech/android-emarsys-sdk/actions" },{ "type": "button", "text": "View Firebase", "url": "https://console.firebase.google.com/project/ems-mobile-sdk/testlab/histories/" },{ "type": "button", "text": "Install page", "url": "http://ems-mobileteam-artifacts.s3-website-eu-west-1.amazonaws.com/index-ems.html" }]'
+      - name: Create mavenCentral keystore file
+        shell: bash
+        run: |
+          echo "${{ secrets.SIGNING_KEY_FILE_ASC }}" > secring.asc
+          gpg --dearmor secring.asc > secring.gpg
